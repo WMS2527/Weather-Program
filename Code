@@ -1,10 +1,49 @@
 //This is a weather calculator.
 //The National Weather Service's formula to calculate wind chill is: windchill =  35.74 + 0.6215T – 35.75(V0.16) + 0.4275T(V0.16)
-//Reminder: Ask for help getting Cloud Base calculation to work on Monday.
 #include <iostream>
 #include <cmath>
 
 using namespace std;
+
+    double computedCloudBase;
+    double temperature;
+    double dewPoint;
+    double windSpeed;
+    double computedWindChill;
+
+void take_input (double& temperature, double& windSpeed, double& dewPoint)
+
+{
+    cout << "Input Temperature in Fahrenheit \n";
+    cin >> temperature;
+    cout << "\n";
+    cout << "Input Wind Speed in MPH \n";
+    cin >> windSpeed;
+    cout << "\n";
+    cout << "Input Dew Point \n";
+    cin >> dewPoint;
+    cout << "\n";
+}
+
+double compute_windchill (double& temperature, double& windSpeed)
+{
+        computedWindChill = 35.74 + ((0.6215 * temperature) - (35.75 * (pow(windSpeed, 0.16)))) + (0.4275 * temperature * (pow(windSpeed, 0.16)));
+}
+
+double compute_cloudbase (double& temperature, double& dewPoint)
+{
+    computedCloudBase = ((temperature - dewPoint) / 4.4) * 1000;
+}
+
+void show_output (double& temperature, double& windSpeed, double& dewPoint, double& windChill, double& cloudBase)
+{
+        //Calculate Wind Chill
+    cout << "Wind Chill \n" << computedWindChill << endl << endl;
+
+    //Calculate Cloud Base
+    cout << "Cloud Base \n" << computedCloudBase << endl;
+}
+
 
 int main()
 
@@ -17,30 +56,20 @@ int main()
     cout <<"|     and cloud base.   |" << endl;
     cout <<"|Enter your values below|" << endl;
     cout << "-------------------------" << endl << endl;
-    //Take user input for Temperature, Wind Speed, and Dew Point
+
     double computedCloudBase;
     double temperature;
     double dewPoint;
     double windSpeed;
     double computedWindChill;
-    computedCloudBase = ((temperature - dewPoint) / 4.4) * 1000;
-    computedWindChill = 35.74 + ((0.6215 * temperature) - (35.75 * (pow(windSpeed, 0.16)))) + (0.4275 * temperature * (pow(windSpeed, 0.16)));
 
-    cout << "Input Temperature in Fahrenheit \n";
-    cin >> temperature;
-    cout << "\n";
-    cout << "Input Wind Speed in MPH \n";
-    cin >> windSpeed;
-    cout << "\n";
-    cout << "Input Dew Point \n";
-    cin >> dewPoint;
-    cout << "\n";
-    void take_input (double& temperature, double& windSpeed, double& dewPoint);
+    take_input(temperature, windSpeed, dewPoint);
 
-    //Calculate Wind Chill
-    cout << "Wind Chill \n" << computedWindChill << endl << endl;
+    compute_windchill(temperature, windSpeed);
 
-    //Calculate Cloud Base
-    cout << "Cloud Base \n" << computedCloudBase << endl;
+    compute_cloudbase(temperature, dewPoint);
+
+    show_output(temperature, windSpeed, dewPoint, computedWindChill, computedCloudBase);
+
+    return 0;
 }
-return 0;
